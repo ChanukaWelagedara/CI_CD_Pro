@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker images using Docker Compose
-                    sh 'docker-compose build'
+                    bat 'docker-compose build'
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Push Docker images using Docker Compose
-                    sh 'docker-compose push'
+                    bat 'docker-compose push'
                 }
             }
         }
@@ -31,8 +31,8 @@ pipeline {
             steps {
                 script {
                     // Restart Docker containers using Docker Compose
-                    sh 'docker-compose down'
-                    sh 'docker-compose up -d'
+                    bat 'docker-compose down'
+                    bat 'docker-compose up -d'
                 }
             }
         }
