@@ -1,25 +1,19 @@
 pipeline {
     agent any
-triggers{
-    githubPush()
-  }
-    environment {
-        REPO_URL = 'https://github.com/Shenith404/DevOps-Project.git'
-        BRANCH = 'main'
-        APP_NAME = 'Music-Instruments'
-    }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: "${BRANCH}", url: "${REPO_URL}"
+                // Git checkout step
+                git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
             }
         }
 
         stage('Build Docker Images') {
             steps {
                 script {
-                    sh 'docker-compose build'
+                    // Build Docker images using Docker Compose
+                    bat 'docker-compose build'
                 }
             }
         }
@@ -27,9 +21,8 @@ triggers{
         stage('Push Docker Images') {
             steps {
                 script {
-                    sh '''
-                    docker-compose push
-                    '''
+                    // Push Docker images using Docker Compose
+                    bat 'docker-compose push'
                 }
             }
         }
@@ -37,12 +30,11 @@ triggers{
         stage('Deploy Application') {
             steps {
                 script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose up -d'
+                    // Restart Docker containers using Docker Compose
+                    bat 'docker-compose down'
+                    bat 'docker-compose up -d'
                 }
             }
         }
     }
 }
-
-
