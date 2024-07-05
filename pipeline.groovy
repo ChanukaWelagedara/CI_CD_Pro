@@ -53,7 +53,7 @@ pipeline {
     agent any
 
     stages {
-        stage('SCM Checkout') {
+        stage('SCM Checkout')  {
             steps {
                 // Git checkout step
                 git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
@@ -68,11 +68,9 @@ pipeline {
 
         stage('Login to Docker Hub') {
             steps {
-                // Ensure the credentials ID matches the ID in Jenkins credentials store
                 withCredentials([string(credentialsId: 'CICDPro', variable: 'CICDPro')]) {
                     script {
-                        // Use secure login method
-                        bat "echo %CICDPro% | docker login -u chanukawelagedara --password-stdin"
+                        bat "docker login -u chanukawelagedara -p %CICDPro%"
                     }
                 }
             }
