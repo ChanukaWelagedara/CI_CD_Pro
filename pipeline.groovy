@@ -62,7 +62,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER% .'
+                bat 'docker-compose build'
             }
         }
 
