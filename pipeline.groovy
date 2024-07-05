@@ -76,9 +76,16 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+       stage('Tag and Push Docker Image') {
             steps {
-                bat 'docker push chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER%'
+                script {
+                    // Tagging the images
+                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/nodeapp-cuban:14'
+                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/nodeapp-cuban:14'
+
+                    // Pushing the images
+                    bat 'docker push chanukawelagedara/nodeapp-cuban:14'
+                }
             }
         }
 
