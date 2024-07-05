@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./BackEnd
+    container_name: backend
+    ports:
+      - "5555:5555"
+    environment:
+      MONGO_URI: mongodb+srv://root:1234@music-instrument-store.cujn07b.mongodb.net/instrument-collection?retryWrites=true&w=majority
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

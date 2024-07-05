@@ -1,0 +1,70 @@
+/* navbar.css */
+
+.navbar {
+    width: 100%;
+    height: 287px;
+    object-fit: cover;
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
+    align-items: center;
+    color: pink;
+  }
+  
+  .vectorIcon {
+    position: relative;
+    width: 100%;
+    height: 287px;
+    object-fit: cover;
+  }
+  
+  .links {
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .links a {
+    text-decoration: none;
+    color: #ea6182;
+    margin-left: 20px;
+    font-style: oblique;
+    font-weight: 900;
+    font-size: 30px;
+    transition: color 0.3s, cursor 0.3s; 
+  }
+  
+  .links a:hover {
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+    text-rendering: auto;
+    scale: 1.2;
+   
+  }
+  
+  .links a.active {
+    color: black;
+    text-decoration: underline;
+  }
+
+  /* navbar.css */
+.logout-icon {
+ 
+  cursor: pointer;
+
+}
+.left-button {
+  position: absolute;
+  top: center; 
+  left: 40px; 
+  background: none; 
+  border: none; 
+  cursor: pointer;
+  
+}
+.left-button:hover {
+  background: none;
+  scale: 1.2;
+
+}
