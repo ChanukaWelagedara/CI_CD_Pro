@@ -69,10 +69,10 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 // Ensure the credentials ID matches the ID in Jenkins credentials store
-                withCredentials([string(credentialsId: 'CI_CD_Pro_Pass', variable: 'CI_CD_Pro_Pass')]) {
+                withCredentials([string(credentialsId: 'CICDPro', variable: 'CICDPro')]) {
                     script {
                         // Use secure login method
-                        bat "echo %CI_CD_Pro_Pass% | docker login -u chanukawelagedara --password-stdin"
+                        bat "echo %CICDPro% | docker login -u chanukawelagedara --password-stdin"
                     }
                 }
             }
