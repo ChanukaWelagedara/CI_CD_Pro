@@ -80,11 +80,11 @@ pipeline {
             steps {
                 script {
                     // Tagging the images
-                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/nodeapp-cuban:14'
-                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/nodeapp-cuban:14'
+                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/CI_CD_Pro-cuban:14'
+                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/CI_CD_Pro-cuban:14'
 
                     // Pushing the images
-                    bat 'docker push chanukawelagedara/nodeapp-cuban:14'
+                    bat 'docker push chanukawelagedara/CI_CD_Pro-cuban:14'
                 }
             }
         }
