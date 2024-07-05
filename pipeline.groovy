@@ -4,7 +4,7 @@ triggers{
     githubPush()
   }
     environment {
-        REPO_URL = 'https://github.com/Shenith404/DevOps-Project.git'
+        REPO_URL = 'https://github.com/ChanukaWelagedara/CI_CD_Pro.git'
         BRANCH = 'main'
         APP_NAME = 'Music-Instruments'
     }
