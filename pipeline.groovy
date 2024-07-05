@@ -53,11 +53,10 @@ pipeline {
     agent any
 
     stages {
-        stage('SCM Checkout') {
+        stage('SCM Checkout')  {
             steps {
-                retry(3) {
-                    git branch: 'main', url: 'https://github.com/ChanukaWelagedara/Dev_Opps'
-                }
+                // Git checkout step
+                git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
             }
         }
 
