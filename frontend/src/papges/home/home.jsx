@@ -23,7 +23,7 @@ export const Home = () => {
         				</div>
         				<div className={styles.text}>
           					<div className={styles.text1}>Explore our Wide Selection Today!</div>
-          					<div className={styles.text2}>{`Elevate Your Melodies with Music `}</div>
+          					<div className={styles.text2}>{`Elevate Your Melodies with Music instrument `}</div>
           					<div className={styles.text3}>Music Instruments</div>
         				</div>
       			</div>
