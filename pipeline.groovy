@@ -1,40 +1,107 @@
+// pipeline {
+//     agent any
+
+//     stages {
+//         stage('Clone Repository') {
+//             steps {
+//                 // Git checkout step
+//                 git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
+//             }
+//         }
+
+//         stage('Build Docker Images') {
+//             steps {
+//                 script {
+//                     // Build Docker images using Docker Compose
+//                     bat 'docker-compose build'
+//                 }
+//             }
+//         }
+
+//         stage('Push Docker Images') {
+//             steps {
+//                 script {
+//                     // Push Docker images using Docker Compose
+//                     bat 'docker-compose push'
+//                 }
+//             }
+//         }
+
+//         stage('Deploy Application') {
+//             steps {
+//                 script {
+//                     // Restart Docker containers using Docker Compose
+//                     bat 'docker-compose down'
+//                     bat 'docker-compose up -d'
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+
+
+
+// withCredentials([string(credentialsId: 'CI_CD_Pro_Pass', variable: 'CI_CD_Pro_Pass')]) {
+//     // some block
+// }
+
+
+
 pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('SCM Checkout') {
             steps {
-                // Git checkout step
-                git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
-            }
-        }
-
-        stage('Build Docker Images') {
-            steps {
-                script {
-                    // Build Docker images using Docker Compose
-                    bat 'docker-compose build'
+                retry(3) {
+                    git branch: 'main', url: 'https://github.com/ChanukaWelagedara/Dev_Opps'
                 }
             }
         }
 
-        stage('Push Docker Images') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    // Push Docker images using Docker Compose
-                    bat 'docker-compose push'
+                bat 'docker build -t chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER% .'
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'CI_CD_Pro_Pass', variable: 'CI_CD_Pro_Pass')]) {
+                    script {
+                        bat "docker login -u chanukawelagedara -p %CI_CD_Pro_Pass%"
+                    }
                 }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                bat 'docker push chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER%'
             }
         }
 
         stage('Deploy Application') {
             steps {
                 script {
-                    // Restart Docker containers using Docker Compose
+                    // Stop existing Docker containers
                     bat 'docker-compose down'
+                    
+                    // Pull the latest Docker image from Docker Hub
+                    bat 'docker-compose pull'
+                    
+                    // Start Docker containers
                     bat 'docker-compose up -d'
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker logout'
         }
     }
 }
