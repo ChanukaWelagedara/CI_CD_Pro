@@ -56,6 +56,7 @@ pipeline {
         DOCKER_HUB_REPO = 'chanukawelagedara/ci_cd_pro_cuban'
         BACKEND_TAG = '14-backend'
         FRONTEND_TAG = '14-frontend'
+        COMPOSE_HTTP_TIMEOUT = '200'
     }
 
     stages {
@@ -92,14 +93,16 @@ pipeline {
 }
 
 
-   stage('Push Docker Images') {
-    steps {
-        script {
-            bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
-            bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+  stage('Push Docker Images') {
+            steps {
+                script {
+                    retry(3) {
+                        bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                        bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+                    }
+                }
+            }
         }
-    }
-}
 
 
         stage('Deploy Application') {
