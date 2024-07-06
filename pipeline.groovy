@@ -83,21 +83,23 @@ pipeline {
         }
 
        stage('Tag Docker Images') {
-            steps {
-                script {
-                    bat "docker tag ci_cd_pro-backend %DOCKER_HUB_REPO%:%BACKEND_TAG%"
-                    bat "docker tag ci_cd_pro-frontend %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
-                }
-            }
+    steps {
+        script {
+            bat "docker tag ci_cd_pro_backend:latest %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+            bat "docker tag ci_cd_pro_frontend:latest %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
         }
+    }
+}
 
-      stage('Push Docker Images') {
-            steps {
-                script {
-                    bat 'docker-compose push'
-                }
-            }
+
+   stage('Push Docker Images') {
+    steps {
+        script {
+            bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+            bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
         }
+    }
+}
 
 
         stage('Deploy Application') {
