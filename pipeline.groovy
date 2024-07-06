@@ -91,11 +91,10 @@ pipeline {
             }
         }
 
-       stage('Push Docker Images') {
+      stage('Push Docker Images') {
             steps {
                 script {
-                    bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
-                    bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+                    bat 'docker-compose push'
                 }
             }
         }
