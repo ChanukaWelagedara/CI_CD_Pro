@@ -47,32 +47,38 @@
 //     // some block
 // }
 
-
-
 pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_REPO = 'chanukawelagedara/ci_cd_pro_cuban'
-        BACKEND_TAG = '14-backend'
-        FRONTEND_TAG = '14-frontend'
+        DOCKER_HUB_REPO = 'chanukawelagedara/ci_cd_pro'
+        BACKEND_TAG = 'backend'
+        FRONTEND_TAG = 'frontend'
         COMPOSE_HTTP_TIMEOUT = '200' // Increase the timeout value if necessary
     }
 
     stages {
-        stage('SCM Checkout')  {
+        stage('SCM Checkout') {
             steps {
                 // Git checkout step
                 git branch: "main", url: "https://github.com/ChanukaWelagedara/CI_CD_Pro.git"
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Build API Docker Image') {
             steps {
-                bat 'docker-compose build'
+                dir('backend') {
+                    bat 'docker build -t chanukawelagedara/apiappv1:%BUILD_NUMBER% .'
+                }
             }
         }
 
+        stage('Build Client Docker Image') {
+            steps {
+                dir('frontend') {
+                    bat 'docker build -t chanukawelagedara/clientappv1:%BUILD_NUMBER% .'
+                }
+            }
+        }
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([string(credentialsId: 'CICDPro', variable: 'CICDPro')]) {
@@ -86,8 +92,8 @@ pipeline {
         stage('Tag Docker Images') {
             steps {
                 script {
-                    bat "docker tag ci_cd_pro_backend:latest %DOCKER_HUB_REPO%:%BACKEND_TAG%"
-                    bat "docker tag ci_cd_pro_frontend:latest %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+                    bat "docker tag chanukawelagedara/apiappv1:%BUILD_NUMBER% %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                    bat "docker tag chanukawelagedara/clientappv1:%BUILD_NUMBER% %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
                 }
             }
         }
@@ -138,3 +144,4 @@ pipeline {
         }
     }
 }
+
