@@ -56,7 +56,7 @@ pipeline {
         DOCKER_HUB_REPO = 'chanukawelagedara/ci_cd_pro_cuban'
         BACKEND_TAG = '14-backend'
         FRONTEND_TAG = '14-frontend'
-        COMPOSE_HTTP_TIMEOUT = '200'
+        COMPOSE_HTTP_TIMEOUT = '200' // Increase the timeout value if necessary
     }
 
     stages {
@@ -83,23 +83,33 @@ pipeline {
             }
         }
 
-       stage('Tag Docker Images') {
-    steps {
-        script {
-            bat "docker tag ci_cd_pro_backend:latest %DOCKER_HUB_REPO%:%BACKEND_TAG%"
-            bat "docker tag ci_cd_pro_frontend:latest %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+        stage('Tag Docker Images') {
+            steps {
+                script {
+                    bat "docker tag ci_cd_pro_backend:latest %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                    bat "docker tag ci_cd_pro_frontend:latest %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
+                }
+            }
         }
-    }
-}
 
-
-     stage('Push Docker Images') {
+        stage('Push Backend Image') {
             steps {
                 script {
                     bat 'docker images' // List images to verify they exist
 
-                    retry(3) {
+                    retry(5) { // Increase retry count
                         bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                    }
+                }
+            }
+        }
+
+        stage('Push Frontend Image') {
+            steps {
+                script {
+                    bat 'docker images' // List images to verify they exist
+
+                    retry(5) { // Increase retry count
                         bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
                     }
                 }
