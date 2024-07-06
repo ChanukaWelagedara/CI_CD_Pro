@@ -90,7 +90,7 @@ pipeline {
             steps {
                 script {
                     // Pushing the backend image
-                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-backend --log-level debug'
+                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-backend '
                 }
             }
         }
@@ -99,7 +99,7 @@ pipeline {
             steps {
                 script {
                     // Pushing the frontend image
-                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-frontend --log-level debug'
+                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-frontend'
                 }
             }
         }
