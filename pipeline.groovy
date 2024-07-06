@@ -52,6 +52,12 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_REPO = 'chanukawelagedara/ci_cd_pro_cuban'
+        BACKEND_TAG = '14-backend'
+        FRONTEND_TAG = '14-frontend'
+    }
+
     stages {
         stage('SCM Checkout')  {
             steps {
@@ -79,27 +85,17 @@ pipeline {
        stage('Tag Docker Images') {
             steps {
                 script {
-                    // Tagging the images
-                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/ci_cd_pro_cuban:14-backend'
-                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/ci_cd_pro_cuban:14-frontend'
+                    bat "docker tag ci_cd_pro-backend %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                    bat "docker tag ci_cd_pro-frontend %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
                 }
             }
         }
 
-        stage('Push Backend Docker Image') {
+       stage('Push Docker Images') {
             steps {
                 script {
-                    // Pushing the backend image
-                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-backend '
-                }
-            }
-        }
-
-        stage('Push Frontend Docker Image') {
-            steps {
-                script {
-                    // Pushing the frontend image
-                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-frontend'
+                    bat "docker push %DOCKER_HUB_REPO%:%BACKEND_TAG%"
+                    bat "docker push %DOCKER_HUB_REPO%:%FRONTEND_TAG%"
                 }
             }
         }
