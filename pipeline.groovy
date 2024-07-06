@@ -76,18 +76,34 @@ pipeline {
             }
         }
 
-       stage('Tag and Push Docker Image') {
+       stage('Tag Docker Images') {
             steps {
                 script {
                     // Tagging the images
-                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/ci_cd_pro_cuban:14'
-                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/ci_cd_pro_cuban:14'
-
-                    // Pushing the images
-                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14'
+                    bat 'docker tag ci_cd_pro-backend chanukawelagedara/ci_cd_pro_cuban:14-backend'
+                    bat 'docker tag ci_cd_pro-frontend chanukawelagedara/ci_cd_pro_cuban:14-frontend'
                 }
             }
         }
+
+        stage('Push Backend Docker Image') {
+            steps {
+                script {
+                    // Pushing the backend image
+                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-backend --log-level debug'
+                }
+            }
+        }
+
+        stage('Push Frontend Docker Image') {
+            steps {
+                script {
+                    // Pushing the frontend image
+                    bat 'docker push chanukawelagedara/ci_cd_pro_cuban:14-frontend --log-level debug'
+                }
+            }
+        }
+
 
         stage('Deploy Application') {
             steps {
