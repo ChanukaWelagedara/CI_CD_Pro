@@ -3,6 +3,7 @@ version: '3.8'
 services:
   backend:
     build: ./BackEnd
+    image: ci_cd_pro_backend:latest
     container_name: backend
     ports:
       - "5555:5555"
@@ -11,6 +12,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: ci_cd_pro_frontend:latest
     container_name: frontend
     ports:
       - "3000:3000"
